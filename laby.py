@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 
 #   This is "Jankas Labyrinth Spiel"
-#   Version 1.3
+#   Version 1.3.1
 #
 #   Copyright (C) 2000-2009  Claus Brunzema <mail@cbrunzema.de>
 #
