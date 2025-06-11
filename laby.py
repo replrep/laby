@@ -259,16 +259,16 @@ class Game:
             self.view.update()
 
 class View:
-    def __init__(self, master, game):
-        self.master=master
+    def __init__(self, main_window, game):
+        self.main_window=main_window
         self.game=game
         self.game.set_view(self)
 
-        self.master.bind("<Escape>", self.quit_app)
+        self.main_window.bind("<Escape>", self.quit_app)
         self.really_quit=0
         self.bind_game_keys()
 
-        frame=tk.Frame(self.master, bg="white")
+        frame=tk.Frame(self.main_window, bg="white")
 
         canvasframe=tk.Frame(frame, bg="white")
 
@@ -291,19 +291,19 @@ class View:
 
     def quit_app(self, event=None):
         self.really_quit=1
-        self.master.quit()
+        self.main_window.quit()
 
     def bind_game_keys(self):
-        self.master.bind("<Up>", self.move_player_n)
-        self.master.bind("<Down>", self.move_player_s)
-        self.master.bind("<Left>", self.move_player_w)
-        self.master.bind("<Right>", self.move_player_e)
+        self.main_window.bind("<Up>", self.move_player_n)
+        self.main_window.bind("<Down>", self.move_player_s)
+        self.main_window.bind("<Left>", self.move_player_w)
+        self.main_window.bind("<Right>", self.move_player_e)
 
     def unbind_game_keys(self):
-        self.master.unbind("<Up>")
-        self.master.unbind("<Down>")
-        self.master.unbind("<Left>")
-        self.master.unbind("<Right>")
+        self.main_window.unbind("<Up>")
+        self.main_window.unbind("<Down>")
+        self.main_window.unbind("<Left>")
+        self.main_window.unbind("<Right>")
 
     def configure_handler(self, event):
         self.width=event.width
@@ -414,10 +414,10 @@ class View:
             self.game.player_row*self.cellheight+self.cellheight*0.5)
 
     def install_show_word_keys(self):
-        self.master.bind("<Key>", self.quit_show_word)
+        self.main_window.bind("<Key>", self.quit_show_word)
 
     def quit_show_word(self, event=None):
-        self.master.quit()
+        self.main_window.quit()
 
     def show_word(self):
         self.store.delete(tk.ALL)
@@ -431,18 +431,18 @@ class View:
                   -int(self.cellheight*2),
                   "bold"))
         self.unbind_game_keys()
-        self.master.bind("<Key>", lambda event: "break")
-        self.master.after(1500, self.install_show_word_keys)
+        self.main_window.bind("<Key>", lambda event: "break")
+        self.main_window.after(1500, self.install_show_word_keys)
         tk.mainloop()
         if self.really_quit:
-            self.master.quit()
-        self.master.unbind("<Key>")
+            self.main_window.quit()
+        self.main_window.unbind("<Key>")
         self.bind_game_keys()
 
 #random.seed(1)
-root=tk.Tk()
-root.geometry(main_window_geometry)
-root.title("Jankas Labyrinth Spiel")
+main_window=tk.Tk()
+main_window.geometry(main_window_geometry)
+main_window.title("Jankas Labyrinth Spiel")
 game=Game(game_width, game_height)
-view=View(root, game)
+view=View(main_window, game)
 tk.mainloop()
