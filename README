@@ -1,0 +1,42 @@
+README for Jankas Labyrinth Spiel
+
+Copyright (C) 2000-2009 by Claus Brunzema <mail@cbrunzema.de>
+
+Latest version at http://www.cbrunzema.de/software.html
+
+Jankas Labyrinth Spiel is distributed under the terms of the
+GNU General Public License Version 2. See comments at the beginning of
+the file laby.py.
+
+
+WHAT IS IT ?
+
+Jankas Labyrinth Spiel is another small game I wrote for my
+daughter Janka. Here you can collect letters in a labyrinth to
+form short words. It is simple, but Janka liked it (she is three
+years old now).
+
+If you or your child find this game interesting, have a look at
+http://www.cbrunzema.de/software.html. There you'll find another game,
+Jankas gelbes Mondgesicht Spiel, which you may like, too.
+
+
+INSTALLATION
+
+You need python and Tkinter for "Jankas Labyrinth Spiel". Have
+a look at http://www.python.org. I used python and Tkinter
+version 2.4.4, other versions may work...
+If you have python and Tkinter installed, un-gzip and un-tar
+laby-1.3.tar.gz, cd into laby-1.3, run laby.py.
+Thats it on my GNU/linux machine. I don't know anything about
+python/Tkinter under Win or MacOS, again, see http://www.python.org.
+Please let me know if Jankas Labyrinth Spiel runs on anything else
+than GNU/linux.
+
+If you like to configure things, have a look at the beginning of
+laby.py.
+
+
+If you have any suggestions or comments, please drop me a mail.
+
+Claus Brunzema <mail@cbrunzema.de>
