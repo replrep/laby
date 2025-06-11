@@ -33,7 +33,7 @@ game_height=4
 main_window_geometry="760x540"
 
 #-------------------------------------------------------------------------
-from Tkinter import *
+import tkinter as tk
 import random
 
 class Game:
@@ -60,8 +60,8 @@ class Game:
         self.make_char()
 
     def init_wordlist(self):
-        buffer = words_to_choose_from[:(len(words_to_choose_from)/2)]
-        queue = words_to_choose_from[(len(words_to_choose_from)/2):]
+        buffer = words_to_choose_from[:int(len(words_to_choose_from)/2)]
+        queue = words_to_choose_from[int(len(words_to_choose_from)/2):]
         new = []
         for i in range(30*len(words_to_choose_from)):
             pos = random.randint(0, len(buffer)-1)
@@ -70,10 +70,6 @@ class Game:
             del buffer[pos]
             buffer.append(queue.pop(0))
         self.words = new
-#        for i in range(len(new)):
-#            sys.stdout.write(new[i])
-#            sys.stdout.write(" ")
-#            sys.stdout.write("\n")
 
     def set_view(self, view):
         self.view=view
@@ -114,7 +110,7 @@ class Game:
         row=0
         col=0
         while (row<self.height or col<self.width):
-            if ((random.random<0.5 or col==self.width) and
+            if ((random.random()<0.5 or col==self.width) and
                 row<self.height):
                 if self.is_wall_pos(row, 1):
                     self.make_wall_e(row, 1)
@@ -272,26 +268,26 @@ class View:
         self.really_quit=0
         self.bind_game_keys()
 
-        frame=Frame(self.master, bg="white")
+        frame=tk.Frame(self.master, bg="white")
 
-        canvasframe=Frame(frame, bg="white")
+        canvasframe=tk.Frame(frame, bg="white")
 
-        self.store=Canvas(canvasframe, bg="white", border=0, height=30)
-        self.store.pack(side=TOP, fill=X, anchor=N)
+        self.store=tk.Canvas(canvasframe, bg="white", border=0, height=30)
+        self.store.pack(side=tk.TOP, fill=tk.X, anchor=tk.N)
 
-        self.labyrinth=Canvas(canvasframe, bg="white", border=0)
-        self.labyrinth.pack(side=TOP, fill=BOTH, expand=1)
+        self.labyrinth=tk.Canvas(canvasframe, bg="white", border=0)
+        self.labyrinth.pack(side=tk.TOP, fill=tk.BOTH, expand=1)
 
-        endbutton=Button(frame, text='Ende', command=self.quit_app,
+        endbutton=tk.Button(frame, text='Ende', command=self.quit_app,
                           bg="white", relief="flat")
-        endbutton.pack(side=BOTTOM, fill=X)
+        endbutton.pack(side=tk.BOTTOM, fill=tk.X)
 
-        canvasframe.pack(expand=1, fill=BOTH)
+        canvasframe.pack(expand=1, fill=tk.BOTH)
         canvasframe.bind("<Configure>", self.configure_handler)
-        frame.pack(expand=1, fill=BOTH)
+        frame.pack(expand=1, fill=tk.BOTH)
 
-        self.smiley_original_size=PhotoImage(file="smiley.gif")
-        self.home_original_size=PhotoImage(file="home.gif")
+        self.smiley_original_size=tk.PhotoImage(file="smiley.gif")
+        self.home_original_size=tk.PhotoImage(file="home.gif")
 
     def quit_app(self, event=None):
         self.really_quit=1
@@ -329,17 +325,17 @@ class View:
         self.update()
 
     def update(self):
-        self.store.delete(ALL)
+        self.store.delete(tk.ALL)
         self.store.create_text(
             int(self.cellwidth/2),
             int(self.cellheight/2),
             text=self.game.current_word[0:self.game.current_char_index],
-            anchor=W,
+            anchor=tk.W,
             font=("Helvetica",
                   -int(self.cellheight*0.8),
                   "bold"))
 
-        self.labyrinth.delete(ALL)
+        self.labyrinth.delete(tk.ALL)
         self.labyrinth.create_rectangle(1,1,
                                         self.width-2, self.height-2,
                                         width=5)
@@ -359,8 +355,8 @@ class View:
             for col in range(self.game.width):
                 if (self.game.is_vertical(row, col) and
                     self.game.field[row][col]==Game.WALL):
-                    cell_x=(col+1)/2
-                    cell_y=row/2
+                    cell_x=int((col+1)/2)
+                    cell_y=int(row/2)
                     self.labyrinth.create_line(cell_x*self.cellwidth+1,
                                                cell_y*self.cellheight+1,
                                                cell_x*self.cellwidth+1,
@@ -368,8 +364,8 @@ class View:
                                                width=5)
                 if (self.game.is_horizontal(row, col) and
                     self.game.field[row][col]==Game.WALL):
-                    cell_x=col/2
-                    cell_y=(row+1)/2
+                    cell_x=int(col/2)
+                    cell_y=int((row+1)/2)
                     self.labyrinth.create_line(cell_x*self.cellwidth+1,
                                                cell_y*self.cellheight+1,
                                                (cell_x+1)*self.cellwidth+1,
@@ -377,8 +373,8 @@ class View:
                                                width=5)
                 if self.game.field[row][col]==Game.CHAR:
                     self.labyrinth.create_text(
-                         (col/2)*self.cellwidth+(self.cellwidth*0.5),
-                        (row/2)*self.cellheight+(self.cellheight*0.5),
+                         int(col/2)*self.cellwidth+(self.cellwidth*0.5),
+                        int(row/2)*self.cellheight+(self.cellheight*0.5),
                         text=self.game.current_word[
                             self.game.current_char_index],
                         font=("Helvetica",
@@ -387,8 +383,8 @@ class View:
 
                 if self.game.field[row][col]==Game.HOME:
                      self.labyrinth.create_image(
-                         (col/2)*self.cellwidth+(self.cellwidth*0.5),
-                        (row/2)*self.cellheight+(self.cellheight*0.5),
+                         int(col/2)*self.cellwidth+(self.cellwidth*0.5),
+                        int(row/2)*self.cellheight+(self.cellheight*0.5),
                          image=self.home, tags="home")
 
         self.labyrinth.lift("player")
@@ -417,7 +413,6 @@ class View:
             self.game.player_col*self.cellwidth+self.cellwidth*0.5,
             self.game.player_row*self.cellheight+self.cellheight*0.5)
 
-
     def install_show_word_keys(self):
         self.master.bind("<Key>", self.quit_show_word)
 
@@ -425,12 +420,12 @@ class View:
         self.master.quit()
 
     def show_word(self):
-        self.store.delete(ALL)
-        self.labyrinth.delete(ALL)
+        self.store.delete(tk.ALL)
+        self.labyrinth.delete(tk.ALL)
         self.labyrinth.create_text(
             self.width/2,
             self.height/2,
-            anchor=S,
+            anchor=tk.S,
             text=self.game.current_word,
             font=("Helvetica",
                   -int(self.cellheight*2),
@@ -438,16 +433,16 @@ class View:
         self.unbind_game_keys()
         self.master.bind("<Key>", lambda event: "break")
         self.master.after(1500, self.install_show_word_keys)
-        mainloop()
+        tk.mainloop()
         if self.really_quit:
             self.master.quit()
         self.master.unbind("<Key>")
         self.bind_game_keys()
 
 #random.seed(1)
-root=Tk()
+root=tk.Tk()
 root.geometry(main_window_geometry)
 root.title("Jankas Labyrinth Spiel")
 game=Game(game_width, game_height)
 view=View(root, game)
-mainloop()
+tk.mainloop()
